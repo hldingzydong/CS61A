@@ -134,6 +134,7 @@ def play(strategy0, strategy1, score0=0, score1=0, dice=six_sided,
     previous_score = [0, 0]
     score_list = [score0, score1]
     strategy_list = [strategy0, strategy1]
+    previous_say = say
     while 1:
         the_other = other(who)
         num_rolls = strategy_list[who](score_list[who], score_list[the_other])
@@ -149,6 +150,7 @@ def play(strategy0, strategy1, score0=0, score1=0, dice=six_sided,
             score_list[who] = score_list[the_other]
             score_list[the_other] = tmp
 
+        previous_say = previous_say(score_list[0], score_list[1])
         if score_list[0] >= goal or score_list[1] >= goal:
             return score_list[0], score_list[1]
         who = the_other
@@ -241,6 +243,15 @@ def announce_highest(who, last_score=0, running_high=0):
     assert who == 0 or who == 1, 'The who argument should indicate a player.'
     # BEGIN PROBLEM 7
     "*** YOUR CODE HERE ***"
+    def say(score0, score1):
+        score_list = [score0, score1]
+        delta = score_list[who] - last_score
+        max_delta = running_high
+        if running_high < delta:
+            print(delta, "point(s)! That's the biggest gain yet for Player",  who)
+            max_delta = delta
+        return announce_highest(who, score_list[who], max_delta)
+    return say
     # END PROBLEM 7
 
 

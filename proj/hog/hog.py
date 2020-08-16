@@ -291,7 +291,16 @@ def make_averaged(original_function, trials_count=1000):
     """
     # BEGIN PROBLEM 8
     "*** YOUR CODE HERE ***"
+    def repeated_function(*args):
+        res = 0
+        i = 0
+        while i < trials_count:
+            res = res + original_function(*args)
+            i = i + 1
+        return res / trials_count
+    return repeated_function
     # END PROBLEM 8
+
 
 
 def max_scoring_num_rolls(dice=six_sided, trials_count=1000):
@@ -305,6 +314,17 @@ def max_scoring_num_rolls(dice=six_sided, trials_count=1000):
     """
     # BEGIN PROBLEM 9
     "*** YOUR CODE HERE ***"
+    roll_number = 0
+    max_score_roll_number = 0
+    max_score = 0
+    while roll_number < 10:
+        curr_score = make_averaged(roll_dice, trials_count)(roll_number + 1, dice)
+        if max_score < curr_score:
+            max_score = curr_score
+            max_score_roll_number = roll_number
+        roll_number = roll_number + 1
+
+    return max_score_roll_number + 1
     # END PROBLEM 9
 
 
@@ -354,7 +374,10 @@ def bacon_strategy(score, opponent_score, cutoff=8, num_rolls=6):
     rolls NUM_ROLLS otherwise.
     """
     # BEGIN PROBLEM 10
-    return 6  # Replace this statement
+    if free_bacon(opponent_score) < cutoff:
+        return num_rolls
+    else:
+        return 0
     # END PROBLEM 10
 
 
@@ -364,7 +387,14 @@ def swap_strategy(score, opponent_score, cutoff=8, num_rolls=6):
     non-beneficial swap. Otherwise, it rolls NUM_ROLLS.
     """
     # BEGIN PROBLEM 11
-    return 6  # Replace this statement
+    plus_socre = free_bacon(opponent_score)
+    if opponent_score > score + plus_socre and is_swap(score + plus_socre, opponent_score):
+        return 0
+    if plus_socre >= cutoff:
+        if not is_swap(score + plus_socre, opponent_score):
+            return 0
+
+    return num_rolls  # Replace this statement
     # END PROBLEM 11
 
 

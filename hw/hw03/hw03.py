@@ -1,4 +1,5 @@
-HW_SOURCE_FILE=__file__
+HW_SOURCE_FILE = __file__
+import math
 
 
 def composer(func=lambda x: x):
@@ -19,8 +20,11 @@ def composer(func=lambda x: x):
     >>> f3(3) # should be 1 + (2 * (3 + 1)) = 9
     9
     """
+
     def func_adder(g):
         "*** YOUR CODE HERE ***"
+        return composer(lambda x: func(g(x)))
+
     return func, func_adder
 
 
@@ -43,6 +47,11 @@ def g(n):
     True
     """
     "*** YOUR CODE HERE ***"
+    if n <= 3:
+        return n
+    else:
+        return g(n - 1) + 2 * g(n - 2) + 3 * g(n - 3)
+
 
 def g_iter(n):
     """Return the value of G(n), computed iteratively.
@@ -63,6 +72,21 @@ def g_iter(n):
     True
     """
     "*** YOUR CODE HERE ***"
+    if n <= 3:
+        return n
+    else:
+        index = 4
+        minus_one = 3
+        minus_two = 2
+        minus_three = 1
+        res = 0
+        while index <= n:
+            res = minus_one + 2 * minus_two + 3 * minus_three
+            minus_three = minus_two
+            minus_two = minus_one
+            minus_one = res
+            index = index + 1
+        return res
 
 
 def missing_digits(n):
@@ -93,6 +117,15 @@ def missing_digits(n):
     True
     """
     "*** YOUR CODE HERE ***"
+    if n < 10:
+        return 0
+    else:
+        last = n % 10
+        last_two = n // 10 % 10
+        if last != last_two:
+            return missing_digits(n // 10) + last - last_two - 1
+        else:
+            return missing_digits(n // 10)
 
 
 def count_change(total):
@@ -113,10 +146,26 @@ def count_change(total):
     """
     "*** YOUR CODE HERE ***"
 
+    def parition(n, m):
+        # print("partition(", n, ",", m, ")")
+        if n == 0:
+            return 1
+        elif n < 0:
+            return 0
+        elif m == 1:
+            return 1
+        elif m <= 0:
+            return 0
+
+        return parition(n - m, m) + parition(n, pow(2, math.floor(math.log2(m)) - 1))
+
+    return parition(total, pow(2, math.floor(math.log2(total))))
+
 
 def print_move(origin, destination):
     """Print instructions to move a disk."""
     print("Move the top disk from rod", origin, "to rod", destination)
+
 
 def move_stack(n, start, end):
     """Print the moves required to move n disks on the start pole to the end
@@ -146,10 +195,18 @@ def move_stack(n, start, end):
     Move the top disk from rod 1 to rod 3
     """
     assert 1 <= start <= 3 and 1 <= end <= 3 and start != end, "Bad start/end"
+    tmp = 6 - start - end
+    if n == 1:
+        print_move(start, end)
+    else:
+        move_stack(n - 1, start, tmp)
+        print_move(start, end)
+        move_stack(n - 1, tmp, end)
     "*** YOUR CODE HERE ***"
 
 
 from operator import sub, mul
+
 
 def make_anonymous_factorial():
     """Return the value of an expression that computes factorial.
@@ -161,5 +218,6 @@ def make_anonymous_factorial():
     >>> check(HW_SOURCE_FILE, 'make_anonymous_factorial', ['Assign', 'AugAssign', 'FunctionDef', 'Recursion'])
     True
     """
-    return 'YOUR_EXPRESSION_HERE'
-
+    # return lambda n: (lambda f, index, res: res if index == 1 else f(f, sub(index, 1), mul(res, index)))(, n, 1)
+    return lambda n: (lambda f1, index1, res1: f1(f1, index1, res1)) \
+        (lambda f2, index2, res2: res2 if index2 == 1 else f2(f2, sub(index2, 1), mul(res2, index2)), n, 1)

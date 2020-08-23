@@ -3,8 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="b78ded1b-8bb9-49f4-9e6c-3021b445289c" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lab/lab06/lab06.py" beforeDir="false" afterPath="$PROJECT_DIR$/lab/lab06/lab06.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lab/lab06/tests/list-mutation.py" beforeDir="false" afterPath="$PROJECT_DIR$/lab/lab06/tests/list-mutation.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lab/lab07/lab07.py" beforeDir="false" afterPath="$PROJECT_DIR$/lab/lab07/lab07.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

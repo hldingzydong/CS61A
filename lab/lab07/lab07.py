@@ -1,3 +1,6 @@
+import copy
+
+
 def insert_into_all(item, nested_list):
     """Assuming that nested_list is a list of lists, return a new list
     consisting of all the lists in nested_list, but with item added to
@@ -7,7 +10,11 @@ def insert_into_all(item, nested_list):
     >>> insert_into_all(0, nl)
     [[0], [0, 1, 2], [0, 3]]
     """
-    return ______________________________
+    copy_list = copy.deepcopy(nested_list)
+    for lst in copy_list:
+        lst.insert(0, item)
+    return copy_list
+
 
 def subseqs(s):
     """Assuming that S is a list, return a nested list of all subsequences
@@ -19,11 +26,16 @@ def subseqs(s):
     >>> subseqs([])
     [[]]
     """
-    if ________________:
-        ________________
+    if len(s) < 1:
+        return [s]
     else:
-        ________________
-        ________________
+        index = len(s) - 1
+        res_list = [[]]
+        while index > -1:
+            res_list = res_list + insert_into_all(s[index], res_list)
+            print("DEBUG:", res_list)
+            index = index - 1
+        return res_list
 
 
 def inc_subseqs(s):
@@ -40,16 +52,20 @@ def inc_subseqs(s):
     >>> sorted(seqs2)
     [[], [1], [1], [1, 1], [1, 1, 2], [1, 2], [1, 2], [2]]
     """
+
     def subseq_helper(s, prev):
         if not s:
-            return ____________________
+            return [[]]
         elif s[0] < prev:
-            return ____________________
+            return subseq_helper(s[1:], prev)
         else:
-            a = ______________________
-            b = ______________________
-            return insert_into_all(________, ______________) + ________________
-    return subseq_helper(____, ____)
+            a = subseq_helper(s[1:], s[0])
+            print("DEBUG:", "a = ", a)
+            b = subseq_helper(s[1:], s[1]) if len(s) > 1 else [[]]
+            print("DEBUG:", "b = ", b)
+            return insert_into_all(s[0], a) + b
+
+    return subseq_helper(s, s[0]) if len(s) > 0 else [[]]
 
 
 def trade(first, second):
@@ -81,9 +97,10 @@ def trade(first, second):
     """
     m, n = 1, 1
 
-    equal_prefix = lambda: ______________________
-    while _______________________________:
-        if __________________:
+    equal_prefix = lambda: sum(first[:m]) == sum(second[:n])
+
+    while m < len(first) and n < len(first) and not equal_prefix():
+        if sum(first[:m]) < sum(second[:n]):
             m += 1
         else:
             n += 1
@@ -108,6 +125,10 @@ def reverse(lst):
     [-8, 72, 42]
     """
     "*** YOUR CODE HERE ***"
+    count = 0
+    while count < len(lst):
+        lst.insert(count, lst.pop())
+        count = count + 1
 
 
 cs61a = {
@@ -122,6 +143,7 @@ cs61a = {
     "Extra credit": 0
 }
 
+
 def make_glookup(class_assignments):
     """ Returns a function which calculates and returns the current
     grade out of what assignments have been entered so far.
@@ -135,6 +157,21 @@ def make_glookup(class_assignments):
     0.8913043478260869
     """
     "*** YOUR CODE HERE ***"
+    student_score = {}
+
+    def student_eval(key, value):
+        if key in student_score:
+            student_score[key] = student_score[key] + value
+        else:
+            student_score[key] = value
+        student_sum_score = 0
+        total_score = 0
+        for k in student_score:
+            student_sum_score = student_sum_score + student_score[k]
+            total_score = total_score + class_assignments[k]
+        return student_sum_score / total_score
+
+    return student_eval
 
 
 def num_trees(n):
@@ -157,10 +194,9 @@ def num_trees(n):
     429
 
     """
-    if ____________________:
-        return _______________
-    return _______________
-
+    if n < 3:
+        return 1
+    return sum(num_trees(i) * num_trees(n - i) for i in range(1,n))
 
 def make_advanced_counter_maker():
     """Makes a function that makes counters that understands the
@@ -191,13 +227,26 @@ def make_advanced_counter_maker():
     >>> tom_counter('global-count')
     1
     """
-    ________________
-    def ____________(__________):
-        ________________
-        def ____________(__________):
-            ________________
-            "*** YOUR CODE HERE ***"
-            # as many lines as you want
-        ________________
-    ________________
+    global_count = 0
 
+    def make_counter():
+        personal_count = 0
+
+        def personal_counter(instruction):
+            nonlocal global_count
+            nonlocal personal_count
+
+            if instruction == 'count':
+                personal_count = personal_count + 1
+                return personal_count
+            elif instruction == "reset":
+                personal_count = 0
+            elif instruction == "global-count":
+                global_count = global_count + 1
+                return global_count
+            else:
+                global_count = 0
+
+        return personal_counter
+
+    return make_counter

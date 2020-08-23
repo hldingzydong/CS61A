@@ -16,8 +16,15 @@ def make_adder_inc(a):
     >>> adder2(5)
     11
     """
-    "*** YOUR CODE HERE ***"
+    state = a
 
+    def make_addr_inc_helper(b):
+        nonlocal state
+        res = state + b
+        state = state + 1
+        return res
+
+    return make_addr_inc_helper
 
 def make_fib():
     """Returns a function that returns the next Fibonacci number
@@ -42,7 +49,19 @@ def make_fib():
     >>> check(this_file, 'make_fib', ['List'])
     True
     """
-    "*** YOUR CODE HERE ***"
+    state1 = 0
+    state2 = 1
+
+    def fib():
+        nonlocal state1, state2
+
+        res = state1
+        state1 = state2
+        state2 = res + state2
+
+        return res
+
+    return fib
 
 
 def insert_items(lst, entry, elem):
@@ -61,5 +80,11 @@ def insert_items(lst, entry, elem):
     >>> large_lst3 is large_lst
     True
     """
-    "*** YOUR CODE HERE ***"
-
+    index = 0
+    while index < len(lst):
+        if lst[index] == entry:
+            lst.insert(index + 1, elem)
+            index = index + 2
+        else:
+            index = index + 1
+    return lst

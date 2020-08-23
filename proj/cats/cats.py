@@ -178,9 +178,14 @@ def final_diff(start, goal, limit):
 
 def report_progress(typed, prompt, id, send):
     """Send a report of your id and progress so far to the multiplayer server."""
-    # BEGIN PROBLEM 8
-    "*** YOUR CODE HERE ***"
-    # END PROBLEM 8
+    count = 0
+    for typed_word in typed:
+        if typed_word == prompt[count]:
+            count = count + 1
+        else:
+            break
+    send({'id': id, 'progress': count / len(prompt)})
+    return count / len(prompt)
 
 
 def fastest_words_report(times_per_player, words):
@@ -204,9 +209,18 @@ def time_per_word(times_per_player, words):
                           the player finished typing each word.
         words: a list of words, in the order they are typed.
     """
-    # BEGIN PROBLEM 9
-    "*** YOUR CODE HERE ***"
-    # END PROBLEM 9
+    time_per_player_word = []
+    for player in times_per_player:
+        player_per_word = []
+        index = 1
+
+        while index < len(player):
+            player_per_word = player_per_word + [player[index] - player[index - 1]]
+            index = index + 1
+
+        time_per_player_word = time_per_player_word + [player_per_word]
+
+    return game(words, time_per_player_word)
 
 
 def fastest_words(game):
@@ -219,9 +233,22 @@ def fastest_words(game):
     """
     players = range(len(all_times(game)))  # An index for each player
     words = range(len(all_words(game)))  # An index for each word
-    # BEGIN PROBLEM 10
-    "*** YOUR CODE HERE ***"
-    # END PROBLEM 10
+
+    fastest_words_per_player = []
+    for player in players:
+        fastest_words_per_player.append([])
+
+    for word_index in words:
+        min_time = float("inf")
+        min_player_index = -1
+        for player in players:
+            if time(game, player, word_index) < min_time:
+                min_time = time(game, player, word_index)
+                min_player_index = player
+
+        fastest_words_per_player[min_player_index] = fastest_words_per_player[min_player_index] + [word_at(game, word_index)]
+
+    return fastest_words_per_player
 
 
 def game(words, times):

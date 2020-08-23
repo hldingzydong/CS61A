@@ -1,5 +1,6 @@
 from operator import add, sub
 
+
 def a_plus_abs_b(a, b):
     """Return a+abs(b), but without calling abs.
 
@@ -12,10 +13,8 @@ def a_plus_abs_b(a, b):
     >>> re.findall(r'^\s*(return .*)', inspect.getsource(a_plus_abs_b), re.M)
     ['return h(a, b)']
     """
-    if b >= 0:
-        h = a + b
-    else:
-        h = a - b
+    h = lambda a1, b1: a1 + b1 if b1 >= 0 else a1 - b1
+
     return h(a, b)
 
 
@@ -58,7 +57,6 @@ def largest_factor(x):
         factory -= 1
 
 
-
 def if_function(condition, true_result, false_result):
     """Return true_result if condition is a true value, and
     false_result otherwise.
@@ -90,6 +88,7 @@ def with_if_statement():
     else:
         return false_func()
 
+
 def with_if_function():
     """
     >>> result = with_if_function()
@@ -100,20 +99,27 @@ def with_if_function():
     """
     return if_function(cond(), true_func(), false_func())
 
+
 def cond():
     "*** YOUR CODE HERE ***"
     return False
+
 
 def true_func():
     "*** YOUR CODE HERE ***"
     print(42)
     return None
 
+
 def false_func():
     "*** YOUR CODE HERE ***"
     print(47)
     return None
+
+
 i = 0
+
+
 def hailstone(x):
     """Print the hailstone sequence starting at x and return its
     length.
@@ -136,7 +142,6 @@ def hailstone(x):
     if x == 1:
         return i
     elif x % 2 == 0:
-        return hailstone(x//2)
+        return hailstone(x // 2)
     else:
         return hailstone(x * 3 + 1)
-

@@ -1,4 +1,6 @@
 """Typing test implementation"""
+import re
+import string
 
 from utils import *
 from ucb import main, interact, trace
@@ -9,15 +11,33 @@ from datetime import datetime
 # Phase 1 #
 ###########
 
+def lower(s):
+    """Return a lowercased version of s."""
+    return s.lower()
+
+
+def split(s):
+    """Return a list of words contained in s, which are sequences of characters
+    separated by whitespace (spaces, tabs, etc.).
+
+    >>> split("It's a lovely day, don't you think?")
+    ["It's", 'a', 'lovely', 'day,', "don't", 'you', 'think?']
+    """
+    return s.split()
+
 
 def choose(paragraphs, select, k):
     """Return the Kth paragraph from PARAGRAPHS for which SELECT called on the
     paragraph returns true. If there are fewer than K such paragraphs, return
     the empty string.
     """
-    # BEGIN PROBLEM 1
-    "*** YOUR CODE HERE ***"
-    # END PROBLEM 1
+    count = -1
+    for paragraph in paragraphs:
+        if select(paragraph):
+            count = count + 1
+            if count == k:
+                return paragraph
+    return ''
 
 
 def about(topic):
@@ -31,9 +51,17 @@ def about(topic):
     'Nice pup.'
     """
     assert all([lower(x) == x for x in topic]), 'topics should be lowercase.'
-    # BEGIN PROBLEM 2
-    "*** YOUR CODE HERE ***"
-    # END PROBLEM 2
+    r = '[’!"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~\n。！，]+'
+
+    def select_word(paragraph):
+        paragraph_lower = lower(paragraph).split()
+        print("DEBUG:", paragraph_lower)
+        for paragraph_word in paragraph_lower:
+            if re.sub(r, '', paragraph_word) in topic:
+                return True
+        return False
+
+    return select_word
 
 
 def accuracy(typed, reference):
@@ -55,17 +83,28 @@ def accuracy(typed, reference):
     """
     typed_words = split(typed)
     reference_words = split(reference)
-    # BEGIN PROBLEM 3
-    "*** YOUR CODE HERE ***"
-    # END PROBLEM 3
+    typed_words_length = len(typed_words)
+    reference_words_length = len(reference_words)
+    if typed_words_length == 0 and reference_words_length == 0:
+        return 100.0
+    elif typed_words_length == 0:
+        return 0.0
+    elif reference_words_length == 0:
+        return 0.0
+    else:
+        index = 0
+        count = 0
+        while index < min(typed_words_length, reference_words_length):
+            if typed_words[index] == reference_words[index]:
+                count = count + 1
+            index = index + 1
+        return count * 100 / typed_words_length
 
 
 def wpm(typed, elapsed):
     """Return the words-per-minute (WPM) of the TYPED string."""
     assert elapsed > 0, 'Elapsed time must be positive'
-    # BEGIN PROBLEM 4
-    "*** YOUR CODE HERE ***"
-    # END PROBLEM 4
+    return float("{:.2f}".format(len(typed) / (5 * (elapsed / 60))))
 
 
 def autocorrect(user_word, valid_words, diff_function, limit):
@@ -73,9 +112,18 @@ def autocorrect(user_word, valid_words, diff_function, limit):
     from USER_WORD. Instead returns USER_WORD if that difference is greater
     than LIMIT.
     """
-    # BEGIN PROBLEM 5
-    "*** YOUR CODE HERE ***"
-    # END PROBLEM 5
+    assert len(valid_words) > 0, "the valid_words should not be empty"
+    if user_word in valid_words:
+        return user_word
+    else:
+        min_diff = limit + 0.001
+        ret_word = user_word
+        for valid_word in valid_words:
+            diff = diff_function(user_word, valid_word, limit)
+            if diff < min_diff:
+                min_diff = diff
+                ret_word = valid_word
+        return ret_word
 
 
 def shifty_shifts(start, goal, limit):
@@ -83,32 +131,39 @@ def shifty_shifts(start, goal, limit):
     in START need to be substituted to create GOAL, then adds the difference in
     their lengths.
     """
-    # BEGIN PROBLEM 6
-    assert False, 'Remove this line'
-    # END PROBLEM 6
+
+    def shifty_shifts_helper(start_helper, goal_helper, limit_helper, count):
+        if len(start_helper) == 0 or len(goal_helper) == 0:
+            return abs(len(start_helper) - len(goal_helper)) + count
+
+        if start_helper[0] == goal_helper[0]:
+            return shifty_shifts_helper(start_helper[1:], goal_helper[1:], limit_helper, count)
+        else:
+            count = count + 1
+            if count > limit:
+                return count
+            else:
+                return shifty_shifts_helper(start_helper[1:], goal_helper[1:], limit_helper, count)
+
+    return shifty_shifts_helper(start, goal, limit, 0)
 
 
 def meowstake_matches(start, goal, limit):
     """A diff function that computes the edit distance from START to GOAL."""
-    assert False, 'Remove this line'
+    if start == goal:
+        return 0
+    elif start == "" or goal == "":
+        return max(len(start), len(goal))
+    elif limit == 0:
+        return float("inf")
 
-    if ______________: # Fill in the condition
-        # BEGIN
-        "*** YOUR CODE HERE ***"
-        # END
-
-    elif ___________: # Feel free to remove or add additional cases
-        # BEGIN
-        "*** YOUR CODE HERE ***"
-        # END
-
+    if start[0] == goal[0]:
+        return meowstake_matches(start[1:], goal[1:], limit)
     else:
-        add_diff = ...  # Fill in these lines
-        remove_diff = ... 
-        substitute_diff = ... 
-        # BEGIN
-        "*** YOUR CODE HERE ***"
-        # END
+        remove_count = 1 + meowstake_matches(start[1:], goal, limit - 1)
+        add_count = 1 + meowstake_matches(start, goal[1:], limit - 1)
+        substitute_count = 1 + meowstake_matches(start[1:], goal[1:], limit - 1)
+        return min(remove_count, add_count, substitute_count)
 
 
 def final_diff(start, goal, limit):
@@ -163,7 +218,7 @@ def fastest_words(game):
         a list of lists containing which words each player typed fastest
     """
     players = range(len(all_times(game)))  # An index for each player
-    words = range(len(all_words(game)))    # An index for each word
+    words = range(len(all_words(game)))  # An index for each word
     # BEGIN PROBLEM 10
     "*** YOUR CODE HERE ***"
     # END PROBLEM 10
@@ -205,6 +260,7 @@ def game_string(game):
     """A helper function that takes in a game object and returns a string representation of it"""
     return "game(%s, %s)" % (game[0], game[1])
 
+
 enable_multiplayer = False  # Change to True when you
 
 ##########################
@@ -212,26 +268,32 @@ enable_multiplayer = False  # Change to True when you
 ##########################
 
 key_distance = get_key_distances()
+
+
 def key_distance_diff(start, goal, limit):
     """ A diff function that takes into account the distances between keys when
     computing the difference score."""
 
-    start = start.lower() #converts the string to lowercase
-    goal = goal.lower() #converts the string to lowercase
+    start = start.lower()  # converts the string to lowercase
+    goal = goal.lower()  # converts the string to lowercase
 
     # BEGIN PROBLEM EC1
     "*** YOUR CODE HERE ***"
     # END PROBLEM EC1
 
+
 def memo(f):
     """A memoization function as seen in John Denero's lecture on Growth"""
 
     cache = {}
+
     def memoized(*args):
         if args not in cache:
             cache[args] = f(*args)
         return cache[args]
+
     return memoized
+
 
 key_distance_diff = count(key_distance_diff)
 

@@ -77,7 +77,8 @@ def make_withdraw(balance, password):
             return "Too many incorrect attempts. Attempts: " + str(error_passwords)
         else:
             if input_password != origin_password:
-                error_passwords = error_passwords + [input_password]
+                if input_password not in error_passwords:
+                    error_passwords = error_passwords + [input_password]
                 return 'Incorrect password'
             else:
                 if account < amount:
@@ -198,7 +199,30 @@ def make_joint(withdraw, old_pass, new_pass):
     >>> make_joint(w, 'hax0r', 'hello')
     "Too many incorrect attempts. Attempts: ['my', 'secret', 'password']"
     """
-    "*** YOUR CODE HERE ***"
+    if type(withdraw(0, old_pass)) == str:
+        return str(withdraw(0, old_pass))
+
+    init_password = old_pass
+    init_withdraw = withdraw
+    new_password = new_pass
+    error_passwords = []
+
+    def make_joint_helper(amount, password):
+        nonlocal init_password
+        nonlocal init_withdraw
+        nonlocal new_password
+        nonlocal error_passwords
+
+        if len(error_passwords) >= 3:
+            return "Too many incorrect attempts. Attempts: " + str(error_passwords)
+        elif password != init_password and password != new_password and type(withdraw(0, password)) == str:
+            if password not in error_passwords:
+                error_passwords = error_passwords + [password]
+            return 'Incorrect password'
+        else:
+            return init_withdraw(amount, init_password)
+
+    return make_joint_helper
 
 
 def remainders_generator(m):
@@ -232,7 +256,20 @@ def remainders_generator(m):
     7
     11
     """
-    "*** YOUR CODE HERE ***"
+
+    count = 0
+    while count < m:
+        def customize_generator():
+            infinite_natural = naturals()
+            while True:
+                val = next(infinite_natural)
+                while val % m != count:
+                    val = next(infinite_natural)
+                yield val
+
+        yield customize_generator()
+        count = count + 1
+
 
 
 def naturals():

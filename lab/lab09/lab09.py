@@ -7,7 +7,11 @@ def convert_link(link):
     >>> convert_link(Link.empty)
     []
     """
-    "*** YOUR CODE HERE ***"
+    if link is Link.empty:
+        return []
+    else:
+        return [link.first] + convert_link(link.rest)
+
 
 
 def every_other(s):
@@ -27,7 +31,9 @@ def every_other(s):
     >>> singleton
     Link(4)
     """
-    "*** YOUR CODE HERE ***"
+    if s is not Link.empty and s.rest is not Link.empty:
+        s.rest = s.rest.rest
+        every_other(s.rest)
 
 
 def label_squarer(t):
@@ -38,7 +44,9 @@ def label_squarer(t):
     >>> t
     Tree(1, [Tree(9, [Tree(25)]), Tree(49)])
     """
-    "*** YOUR CODE HERE ***"
+    t.label = t.label * t.label
+    for b in t.branches:
+        label_squarer(b)
 
 
 def cumulative_mul(t):
@@ -50,8 +58,11 @@ def cumulative_mul(t):
     >>> t
     Tree(105, [Tree(15, [Tree(5)]), Tree(7)])
     """
-    "*** YOUR CODE HERE ***"
-
+    if not Tree.is_leaf(t):
+        for b in t.branches:
+            cumulative_mul(b)
+        for b in t.branches:
+            t.label = t.label * b.label
 
 def has_cycle(link):
     """Return whether link contains a cycle.
@@ -67,7 +78,17 @@ def has_cycle(link):
     >>> has_cycle(u)
     False
     """
-    "*** YOUR CODE HERE ***"
+    if link is Link.empty or link.rest is Link.empty:
+        return False
+
+    fast_ptr = link
+    slow_ptr = link
+    while fast_ptr is not Link.empty and fast_ptr.rest is not Link.empty:
+        fast_ptr = fast_ptr.rest.rest
+        slow_ptr = slow_ptr.rest
+        if fast_ptr == slow_ptr:
+            return True
+    return False
 
 def has_cycle_constant(link):
     """Return whether link contains a cycle.
@@ -80,7 +101,17 @@ def has_cycle_constant(link):
     >>> has_cycle_constant(t)
     False
     """
-    "*** YOUR CODE HERE ***"
+    if link is Link.empty or link.rest is Link.empty:
+        return False
+
+    fast_ptr = link
+    slow_ptr = link
+    while fast_ptr is not Link.empty and fast_ptr.rest is not Link.empty:
+        fast_ptr = fast_ptr.rest.rest
+        slow_ptr = slow_ptr.rest
+        if fast_ptr == slow_ptr:
+            return True
+    return False
 
 
 def reverse_other(t):
@@ -97,6 +128,20 @@ def reverse_other(t):
     Tree(1, [Tree(8, [Tree(3, [Tree(5), Tree(4)]), Tree(6, [Tree(7)])]), Tree(2)])
     """
     "*** YOUR CODE HERE ***"
+    def reverse_other_helper(curr_t, is_odd):
+        if is_odd:
+            if len(curr_t.branches) > 1:
+                sub_labels = [b.label for b in curr_t.branches]
+                sub_labels.reverse()
+                node_index = 0
+                while node_index < len(sub_labels):
+                    curr_t.branches[node_index].label = sub_labels[node_index]
+                    node_index += 1
+
+        for b in curr_t.branches:
+            reverse_other_helper(b, 1 - is_odd)
+
+    reverse_other_helper(t, 1)
 
 
 class Link:

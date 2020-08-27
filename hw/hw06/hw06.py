@@ -1,4 +1,3 @@
-
 passphrase = '*** PASSPHRASE HERE ***'
 
 
@@ -51,6 +50,37 @@ class VendingMachine:
     """
     "*** YOUR CODE HERE ***"
 
+    def __init__(self, name, price):
+        self.name = name
+        self.price = price
+        self.stock_number = 0
+        self.store_money = 0
+
+    def vend(self):
+        if self.stock_number < 1:
+            return 'Inventory empty. Restocking required.'
+        elif self.store_money < self.price:
+            return 'You must add ${0} more funds.'.format(self.price - self.store_money)
+        else:
+            self.stock_number = self.stock_number - 1
+            change = self.store_money - self.price
+            self.store_money = 0
+            if change > 0:
+                return 'Here is your {0} and ${1} change.'.format(self.name, change)
+            else:
+                return 'Here is your {0}.'.format(self.name)
+
+    def add_funds(self, money):
+        if self.stock_number < 1:
+            return 'Inventory empty. Restocking required. Here is your ${0}.'.format(money)
+
+        self.store_money = self.store_money + money
+        return 'Current balance: ${0}'.format(self.store_money)
+
+    def restock(self, number):
+        self.stock_number = self.stock_number + number
+        return 'Current {0} stock: {1}'.format(self.name, self.stock_number)
+
 
 class Mint:
     """A mint creates coins by stamping on years.
@@ -87,20 +117,26 @@ class Mint:
         self.update()
 
     def create(self, kind):
-        "*** YOUR CODE HERE ***"
+        return kind(self.year)
 
     def update(self):
-        "*** YOUR CODE HERE ***"
+        self.year = Mint.current_year
+
 
 class Coin:
     def __init__(self, year):
         self.year = year
 
     def worth(self):
-        "*** YOUR CODE HERE ***"
+        if Mint.current_year > self.year:
+            return self.cents + (Mint.current_year - self.year - 50)
+        else:
+            return self.cents
+
 
 class Nickel(Coin):
     cents = 5
+
 
 class Dime(Coin):
     cents = 10
@@ -191,11 +227,10 @@ def path_yielder(t, value):
 
     for _______________ in _________________:
         for _______________ in _________________:
-
             "*** YOUR CODE HERE ***"
 
 
-def remove_all(link , value):
+def remove_all(link, value):
     """Remove all the nodes containing value in link. Assume that the
     first element is never removed.
 
@@ -241,6 +276,7 @@ class Tree:
     >>> t.branches[1].is_leaf()
     True
     """
+
     def __init__(self, label, branches=[]):
         for b in branches:
             assert isinstance(b, Tree)
@@ -303,6 +339,7 @@ class Tree:
             for b in t.branches:
                 tree_str += print_tree(b, indent + 1)
             return tree_str
+
         return print_tree(self).rstrip()
 
 
@@ -346,4 +383,3 @@ class Link:
             string += str(self.first) + ' '
             self = self.rest
         return string + str(self.first) + '>'
-

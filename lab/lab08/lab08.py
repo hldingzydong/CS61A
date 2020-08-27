@@ -32,5 +32,19 @@ def make_generators_generator(g):
     6
     9
     """
-    "*** YOUR CODE HERE ***"
 
+    def count_g(n):
+        count = 0
+        g_g = g()
+        while count < n:
+            yield next(g_g)
+            count = count + 1
+
+    cnt = 0         # calculate how many items will generate max
+    for item in g():
+        cnt = cnt + 1
+
+    out_count = 1
+    while out_count <= cnt:
+        yield count_g(out_count)
+        out_count = out_count + 1

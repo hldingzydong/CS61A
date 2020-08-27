@@ -167,7 +167,35 @@ def is_bst(t):
     >>> is_bst(t7)
     False
     """
-    "*** YOUR CODE HERE ***"
+    def bst_min(t):
+        if Tree.is_leaf(t):
+            return t.label
+        else:
+            return min(t.label, bst_min(t.branches[0]))
+
+    def bst_max(t):
+        if Tree.is_leaf(t):
+            return t.label
+        else:
+            if len(t.branches) > 1:
+                return max(t.label, bst_max(t.branches[1]))
+            else:
+                return max(t.label, bst_max(t.branches[0]))
+
+    if Tree.is_leaf(t):
+        return True
+    else:
+        for b in t.branches:
+            if not is_bst(b):
+                return False
+
+        if len(t.branches) > 1:
+            return bst_max(t.branches[0]) <= t.label <= bst_min(t.branches[1])
+        else:
+            if bst_max(t.branches[0]) <= t.label:
+                return True
+            else:
+                return bst_min(t.branches[0]) >= t.label
 
 
 def store_digits(n):
@@ -185,7 +213,16 @@ def store_digits(n):
     >>> cleaned = re.sub(r"#.*\\n", '', re.sub(r'"{3}[\s\S]*?"{3}', '', inspect.getsource(store_digits)))
     >>> print("Do not use str or reversed!") if any([r in cleaned for r in ["str", "reversed"]]) else None
     """
-    "*** YOUR CODE HERE ***"
+    if n < 10:
+        return Link(n)
+    else:
+        head = store_digits(n // 10)
+        tail = store_digits(n % 10)
+        ptr = head
+        while ptr.rest is not Link.empty:
+            ptr = ptr.rest
+        ptr.rest = tail
+        return head
 
 
 def path_yielder(t, value):
@@ -222,12 +259,20 @@ def path_yielder(t, value):
     >>> sorted(list(path_to_2))
     [[0, 2], [0, 2, 1, 2]]
     """
+    def path_yielder_helper(inner_t, path):
+        print("DEBUG:", "append to path with value ", inner_t.label)
+        path.append(inner_t.label)
+        if inner_t.label == value:
+            yield path.copy()
 
-    "*** YOUR CODE HERE ***"
+        if len(inner_t.branches) > 0:
+            for b in inner_t.branches:
+                yield from path_yielder_helper(b, path)
 
-    for _______________ in _________________:
-        for _______________ in _________________:
-            "*** YOUR CODE HERE ***"
+        print("DEBUG:", "remove path with value ", inner_t.label)
+        path.remove(inner_t.label)
+
+    return path_yielder_helper(t, [])
 
 
 def remove_all(link, value):
@@ -247,7 +292,12 @@ def remove_all(link, value):
     >>> print(l1)
     <0 1>
     """
-    "*** YOUR CODE HERE ***"
+    if link.rest is not Link.empty:
+        if link.rest.first == value:
+            link.rest = link.rest.rest
+            remove_all(link, value)
+        else:
+            remove_all(link.rest, value)
 
 
 def deep_map(f, link):
@@ -263,7 +313,20 @@ def deep_map(f, link):
     >>> print(deep_map(lambda x: 2 * x, Link(s, Link(Link(Link(5))))))
     <<2 <4 6> 8> <<10>>>
     """
-    "*** YOUR CODE HERE ***"
+    if link is Link.empty:
+        return Link.empty
+    elif link.rest is Link.empty:
+        if type(link.first) == Link:
+            return Link(deep_map(f, link.first))
+        else:
+            return Link(f(link.first))
+    else:
+        new_link = deep_map(f, link.rest)
+        if type(link.first) == Link:
+            return Link(deep_map(f, link.first), new_link)
+        else:
+            return Link(f(link.first), new_link)
+
 
 
 class Tree:

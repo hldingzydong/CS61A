@@ -3,12 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="b78ded1b-8bb9-49f4-9e6c-3021b445289c" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/proj/ants/.ok_history" beforeDir="false" afterPath="$PROJECT_DIR$/proj/ants/.ok_history" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/proj/ants/.ok_storage.db" beforeDir="false" afterPath="$PROJECT_DIR$/proj/ants/.ok_storage.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/proj/ants/ants.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/ants/ants.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/proj/ants/tests/11.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/ants/tests/11.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/proj/ants/tests/12.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/ants/tests/12.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/proj/ants/tests/13.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/ants/tests/13.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

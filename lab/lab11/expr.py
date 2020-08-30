@@ -191,7 +191,6 @@ class CallExpr(Expr):
         except AttributeError as e:
             print("Error message:", e)
 
-
     def __str__(self):
         function = str(self.operator)
         args = '(' + comma_separated(self.operands) + ')'

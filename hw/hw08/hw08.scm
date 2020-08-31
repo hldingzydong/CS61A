@@ -1,11 +1,26 @@
+(define (rle_helper s curr cnt)
+    (cond ((null? s) (cons-stream (list curr cnt) nil))
+          ((= curr (car s)) (rle_helper (cdr-stream s) curr (+ cnt 1)))
+          (else (cons-stream (list curr cnt) (rle_helper s (car s) 0)))
+        )
+)
+
 (define (rle s)
-  'YOUR-CODE-HERE
+   (if (null? s) s
+    (rle_helper s (car s) 0))
 )
 
 
+(define (group-by-nondecreasing-helper s last_value curr_lst)
+        (cond ((null? s) (cons-stream curr_lst nil))
+            ((<= last_value (car s)) (group-by-nondecreasing-helper (cdr-stream s) (car s) (append curr_lst (cons (car s) nil))))
+            (else (cons-stream curr_lst (group-by-nondecreasing-helper (cdr-stream s) (car s) (list (car s))))))
+    )
 
 (define (group-by-nondecreasing s)
-    'YOUR-CODE-HERE)
+    (if (null? s) s
+        (group-by-nondecreasing-helper (cdr-stream s) (car s) (list (car s))))
+    )
 
 
 (define finite-test-stream

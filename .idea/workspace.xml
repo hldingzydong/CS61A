@@ -3,7 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="b78ded1b-8bb9-49f4-9e6c-3021b445289c" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lab/lab13/lab13.sql" beforeDir="false" afterPath="$PROJECT_DIR$/lab/lab13/lab13.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hw/hw08/.ok_history" beforeDir="false" afterPath="$PROJECT_DIR$/hw/hw08/.ok_history" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hw/hw08/.ok_storage.db" beforeDir="false" afterPath="$PROJECT_DIR$/hw/hw08/.ok_storage.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hw/hw08/hw08.sql" beforeDir="false" afterPath="$PROJECT_DIR$/hw/hw08/hw08.sql" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -93,5 +95,9 @@
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state x="421" y="93" width="598" height="714" key="find.popup/0.0.1440.900@0.0.1440.900" timestamp="1598628390583" />
+    <state x="385" y="196" width="670" height="676" key="search.everywhere.popup" timestamp="1598970738297">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state x="385" y="196" width="670" height="676" key="search.everywhere.popup/0.0.1440.900@0.0.1440.900" timestamp="1598970738297" />
   </component>
 </project>

@@ -1,3 +1,6 @@
+import math
+
+
 def prune_min(t):
     """Prune the tree mutatively from the bottom up.
 
@@ -58,31 +61,31 @@ def align_skeleton(skeleton, code):
             cost: the cost of the corrections, in edits
         """
         if skeleton_idx == len(skeleton) and code_idx == len(code):
-            return _________, ______________
+            return "", 0
         if skeleton_idx < len(skeleton) and code_idx == len(code):
             edits = "".join(["-[" + c + "]" for c in skeleton[skeleton_idx:]])
-            return _________, ______________
+            return edits, len(skeleton) - skeleton_idx
         if skeleton_idx == len(skeleton) and code_idx < len(code):
             edits = "".join(["+[" + c + "]" for c in code[code_idx:]])
-            return _________, ______________
+            return edits, len(code) - code_idx
         
         possibilities = []
         skel_char, code_char = skeleton[skeleton_idx], code[code_idx]
         # Match
         if skel_char == code_char:
-            _________________________________________
-            _________________________________________
-            possibilities.append((_______, ______))
+            tmp_result, tmp_cost = helper_align(skeleton_idx + 1, code_idx + 1)
+            tmp_result = skel_char + tmp_result
+            possibilities.append((tmp_result, tmp_cost))
         # Insert
-        _________________________________________
-        _________________________________________
-        possibilities.append((_______, ______))
+        tmp_result, tmp_cost = helper_align(skeleton_idx, code_idx + 1)
+        tmp_result, tmp_cost = "+[" + code_char + "]" + tmp_result, tmp_cost + 1
+        possibilities.append((tmp_result, tmp_cost))
         # Delete
-        _________________________________________
-        _________________________________________
-        possibilities.append((_______, ______))
+        tmp_result, tmp_cost = helper_align(skeleton_idx + 1, code_idx)
+        tmp_result, tmp_cost = "-[" + skel_char + "]" + tmp_result, tmp_cost + 1
+        possibilities.append((tmp_result, tmp_cost))
         return min(possibilities, key=lambda x: x[1])
-    result, cost = ________________________
+    result, cost = helper_align(0, 0)
     return result
 
 
@@ -99,7 +102,28 @@ def num_splits(s, d):
     >>> num_splits([1, 4, 6, 8, 2, 9, 5], 3)
     12
     """
-    "*** YOUR CODE HERE ***"
+    sum_count = 0
+
+    def num_splits_helper(left_sum, right_sum, left_lst, right_lst):
+        nonlocal sum_count
+
+        if len(left_lst) >= len(right_lst):
+            if d >= left_sum - right_sum >= 0:
+                if len(right_lst) > 0:
+                    sum_count += 1/len(right_lst)
+                else:
+                    sum_count += 1
+
+            for i in range(len(left_lst)):
+                val = left_lst[i]
+                left_lst.pop(i)
+                right_lst.insert(0, val)
+                num_splits_helper(left_sum - val, right_sum + val, left_lst, right_lst)
+                left_lst.insert(i, val)
+                right_lst.pop(0)
+
+    num_splits_helper(sum(s), 0, s, [])
+    return math.ceil(sum_count)
 
 
 def insert(link, value, index):
@@ -117,14 +141,14 @@ def insert(link, value, index):
     >>> insert(link, 4, 5)
     IndexError
     """
-    if ____________________:
-        ____________________
-        ____________________
-        ____________________
-    elif ____________________:
-        ____________________
+    if link is Link.empty:
+        raise IndexError
+    elif index == 0:
+        tmp_node = Link(link.first, link.rest)
+        link.rest = tmp_node
+        link.first = value
     else:
-        ____________________
+        insert(link.rest, value, index - 1)
 
 
 

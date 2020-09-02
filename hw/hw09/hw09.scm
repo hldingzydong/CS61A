@@ -1,4 +1,5 @@
 (define (reverse lst)
-    'YOUR-CODE-HERE
+    (if (null? lst) lst
+    (append (reverse (cdr lst)) (list (car lst))))
 )
 

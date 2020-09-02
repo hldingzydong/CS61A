@@ -14,7 +14,14 @@ def prune_min(t):
     >>> t3
     Tree(6, [Tree(3, [Tree(1)])])
     """
-    "*** YOUR CODE HERE ***"
+    if not Tree.is_leaf(t):
+        leftTree = t.branches[0]
+        rightTree = t.branches[1]
+        if leftTree.label < rightTree.label:
+            t.branches = [leftTree]
+        else:
+            t.branches = [rightTree]
+        prune_min(t.branches[0])
 
 
 def align_skeleton(skeleton, code):

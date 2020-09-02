@@ -19,7 +19,12 @@ def in_order_traversal(t):
     >>> list(in_order_traversal(t))
     [4, 2, 6, 5, 7, 1, 3]
     """
-    "*** YOUR CODE HERE ***"
+    if Tree.is_leaf(t):
+        yield t.label
+    else:
+        yield from in_order_traversal(t.branches[0])
+        yield t.label
+        yield from in_order_traversal(t.branches[1])
 
 
 def summation(n, term):
@@ -44,7 +49,15 @@ def interleaved_sum(n, odd_term, even_term):
     >>> check(SOURCE_FILE, 'interleaved_sum', ['While', 'For', 'Mod']) # ban loops and %
     True
     """
-    "*** YOUR CODE HERE ***"
+    def interleaved_sum_helper(flag, curr_count, curr_sum):
+        if curr_count > n:
+            return curr_sum
+        elif flag:
+            return interleaved_sum_helper(1 - flag, curr_count + 1, curr_sum + odd_term(curr_count))
+        else:
+            return interleaved_sum_helper(1 - flag, curr_count + 1, curr_sum + even_term(curr_count))
+
+    return interleaved_sum_helper(1, 1, 0)
 
 
 def mutate_reverse(link):
@@ -60,8 +73,33 @@ def mutate_reverse(link):
     >>> link
     Link(3, Link(2, Link(1)))
     """
-    "*** YOUR CODE HERE ***"
+    def mutate_reverse_helper(lst):
+        if lst is not Link.empty:
+            return Link(lst.first, mutate_reverse_helper(lst.rest))
+        else:
+            return lst
 
+    if link is not Link.empty and link.rest is not Link.empty:
+        copy_link = mutate_reverse_helper(link)
+        print("DEBUG:", copy_link)
+        prev_node = copy_link
+        curr_node = prev_node.rest
+        prev_node.rest = copy_link.empty
+        next_node = curr_node.rest
+
+        while curr_node is not Link.empty:
+            curr_node.rest = prev_node
+            prev_node = curr_node
+            curr_node = next_node
+            if curr_node is not Link.empty:
+                next_node = next_node.rest
+
+        copy_link = prev_node
+        print("DEBUG:", copy_link)
+        while copy_link is not Link.empty:
+            link.first = copy_link.first
+            copy_link = copy_link.rest
+            link = link.rest
 
 class Tree:
     """

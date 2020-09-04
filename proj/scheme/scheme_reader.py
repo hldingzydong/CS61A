@@ -131,23 +131,21 @@ def scheme_read(src):
     """
     if src.current() is None:
         raise EOFError
-    val = src.pop_first() # Get the first token
+
+    val = src.pop_first()
     if val == 'nil':
-        # BEGIN PROBLEM 1
-        "*** YOUR CODE HERE ***"
-        # END PROBLEM 1
+        return nil
     elif val == '(':
-        # BEGIN PROBLEM 1
-        "*** YOUR CODE HERE ***"
-        # END PROBLEM 1
+        return read_tail(src)
     elif val in quotes:
-        # BEGIN PROBLEM 6
-        "*** YOUR CODE HERE ***"
-        # END PROBLEM 6
+        # TODO in problem6
+        return val
     elif val not in DELIMITERS:
         return val
     else:
         raise SyntaxError('unexpected token: {0}'.format(val))
+
+
 def read_tail(src):
     """Return the remainder of a list in SRC, starting before an element or ).
 
@@ -160,13 +158,13 @@ def read_tail(src):
         if src.current() is None:
             raise SyntaxError('unexpected end of file')
         elif src.current() == ')':
-            # BEGIN PROBLEM 1
-            "*** YOUR CODE HERE ***"
-            # END PROBLEM 1
+            src.pop_first()
+            return nil
         else:
-            # BEGIN PROBLEM 1
-            "*** YOUR CODE HERE ***"
-            # END PROBLEM 1
+            first = scheme_read(src)
+            rest = read_tail(src)
+            return Pair(first, rest)
+
     except EOFError:
         raise SyntaxError('unexpected end of file')
 

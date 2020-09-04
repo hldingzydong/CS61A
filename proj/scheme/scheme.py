@@ -40,6 +40,7 @@ def scheme_eval(expr, env, _=None): # Optional third argument is ignored
 
 def self_evaluating(expr):
     """Return whether EXPR evaluates to itself."""
+    """bool, number, string, nil, None are self evaluating, symbol is not"""
     return (scheme_atomp(expr) and not scheme_symbolp(expr)) or expr is None
 
 def scheme_apply(procedure, args, env):
@@ -91,16 +92,16 @@ class Frame(object):
 
     def define(self, symbol, value):
         """Define Scheme SYMBOL to have VALUE."""
-        # BEGIN PROBLEM 2
-        "*** YOUR CODE HERE ***"
-        # END PROBLEM 2
+        self.bindings[symbol] = value
 
     def lookup(self, symbol):
         """Return the value bound to SYMBOL. Errors if SYMBOL is not found."""
-        # BEGIN PROBLEM 2
-        "*** YOUR CODE HERE ***"
-        # END PROBLEM 2
-        raise SchemeError('unknown identifier: {0}'.format(symbol))
+        if symbol in self.bindings:
+            return self.bindings[symbol]
+        elif self.parent is None:
+            raise SchemeError('unknown identifier: {0}'.format(symbol))
+        else:
+            return self.parent.lookup(symbol)
 
 
     def make_child_frame(self, formals, vals):
@@ -152,9 +153,16 @@ class BuiltinProcedure(Procedure):
             raise SchemeError('arguments are not in a list: {0}'.format(args))
         # Convert a Scheme list to a Python list
         python_args = []
-        # BEGIN PROBLEM 3
-        "*** YOUR CODE HERE ***"
-        # END PROBLEM 3
+        while args is not nil:
+            python_args.append(args.first)
+            args = args.rest
+        if self.use_env:
+            python_args.append(env)
+
+        try:
+            return self.fn(*python_args)
+        except TypeError:
+            raise SchemeError("wrong number of arguments were passed")
 
 class LambdaProcedure(Procedure):
     """A procedure defined by a lambda expression or a define form."""

@@ -120,9 +120,17 @@ class Frame(object):
         >>> env.make_child_frame(formals, expressions)
         <{a: 1, b: 2, c: 3} -> <Global Frame>>
         """
-        # BEGIN PROBLEM 10
-        "*** YOUR CODE HERE ***"
-        # END PROBLEM 10
+        if len(formals) != len(vals):
+            raise SchemeError("length of formals and vals are not equal when creating a new frame")
+        child_frame = Frame(self)
+        while formals is not nil and vals is not nil:
+            child_frame.define(formals.first, vals.first)
+            formals = formals.rest
+            vals = vals.rest
+
+        return child_frame
+
+
 
 ##############
 # Procedures #
@@ -186,9 +194,7 @@ class LambdaProcedure(Procedure):
     def make_call_frame(self, args, env):
         """Make a frame that binds my formal parameters to ARGS, a Scheme list
         of values, for a lexically-scoped call evaluated in my parent environment."""
-        # BEGIN PROBLEM 11
-        "*** YOUR CODE HERE ***"
-        # END PROBLEM 11
+        return self.env.make_child_frame(self.formals, args)
 
     def __str__(self):
         return str(Pair('lambda', Pair(self.formals, self.body)))
@@ -253,9 +259,20 @@ def do_define_form(expressions, env):
         return target
 
     elif isinstance(target, Pair) and scheme_symbolp(target.first):
-        # BEGIN PROBLEM 9
-        "*** YOUR CODE HERE ***"
-        # END PROBLEM 9
+        lambda_name = target.first
+        lambda_formals = target.rest
+        check_lambda_formals = lambda_formals
+
+        while check_lambda_formals is not nil:
+            if not scheme_symbolp(check_lambda_formals.first):
+                raise SchemeError("lambda formals are not symbols")
+            check_lambda_formals = check_lambda_formals.rest
+
+        bodys = expressions.rest
+        lambda_proc = LambdaProcedure(lambda_formals, bodys, env)
+        env.define(lambda_name, lambda_proc)
+        return lambda_name
+
     else:
         bad_target = target.first if isinstance(target, Pair) else target
         raise SchemeError('non-symbol: {0}'.format(bad_target))

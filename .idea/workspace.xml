@@ -9,10 +9,8 @@
       <change beforePath="$PROJECT_DIR$/proj/scheme/.ok_history" beforeDir="false" afterPath="$PROJECT_DIR$/proj/scheme/.ok_history" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/proj/scheme/.ok_storage.db" beforeDir="false" afterPath="$PROJECT_DIR$/proj/scheme/.ok_storage.db" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/proj/scheme/scheme.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/scheme/scheme.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/proj/scheme/scheme_reader.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/scheme/scheme_reader.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/proj/scheme/tests/06.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/scheme/tests/06.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/proj/scheme/tests/07.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/scheme/tests/07.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/proj/scheme/tests/08.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/scheme/tests/08.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/proj/scheme/tests/09.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/scheme/tests/09.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/proj/scheme/tests/10.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/scheme/tests/10.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

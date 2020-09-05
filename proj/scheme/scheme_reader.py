@@ -41,7 +41,7 @@ class Pair(object):
         from scheme_builtins import scheme_valid_cdrp, SchemeError
         if not (rest is nil or isinstance(rest, Pair) or type(rest).__name__ == 'Promise'):
             print(rest, type(rest).__name__)
-            raise SchemeError("cdr can only be a pair, nil, or a promise but was {}".format(rest))
+            raise SchemeError("cdr can only be a pair, nil, or a promise but was {}, first was {}".format(rest, first))
         self.first = first
         self.rest = rest
 

@@ -11,7 +11,10 @@
   )
 
 (define (zip pairs)
-  'replace-this-line)
+  (cond ((null? pairs) '(() ()))
+        ((null? (car pairs)) nil)
+        (else (append (list (map car pairs)) (zip (map cdr pairs)))))
+  )
 
 ;; Problem 16
 ;; Returns a list of two-element lists
@@ -46,33 +49,27 @@
 ;; Converts all let special forms in EXPR into equivalent forms using lambda
 (define (let-to-lambda expr)
   (cond ((atom? expr)
-         ; BEGIN PROBLEM 18
-         'replace-this-line
-         ; END PROBLEM 18
+         expr
          )
         ((quoted? expr)
-         ; BEGIN PROBLEM 18
-         'replace-this-line
-         ; END PROBLEM 18
+         expr
          )
         ((or (lambda? expr)
              (define? expr))
          (let ((form   (car expr))
                (params (cadr expr))
                (body   (cddr expr)))
-           ; BEGIN PROBLEM 18
-           'replace-this-line
-           ; END PROBLEM 18
+                (append (list form params) (let-to-lambda body))
            ))
         ((let? expr)
          (let ((values (cadr expr))
                (body   (cddr expr)))
-           ; BEGIN PROBLEM 18
-           'replace-this-line
-           ; END PROBLEM 18
+            (cons
+             (append
+               (list 'lambda (car (zip values)))
+               (map let-to-lambda body))
+             (map let-to-lambda (cadr (zip values))))
            ))
         (else
-         ; BEGIN PROBLEM 18
-         'replace-this-line
-         ; END PROBLEM 18
+            (map let-to-lambda expr)
          )))

@@ -7,10 +7,13 @@
     <list default="true" id="b78ded1b-8bb9-49f4-9e6c-3021b445289c" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/proj/scheme/.ok_history" beforeDir="false" afterPath="$PROJECT_DIR$/proj/scheme/.ok_history" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/proj/scheme/.ok_messages" beforeDir="false" afterPath="$PROJECT_DIR$/proj/scheme/.ok_messages" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/proj/scheme/.ok_storage.db" beforeDir="false" afterPath="$PROJECT_DIR$/proj/scheme/.ok_storage.db" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/proj/scheme/scheme.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/scheme/scheme.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/proj/scheme/tests/09.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/scheme/tests/09.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/proj/scheme/tests/10.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/scheme/tests/10.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/proj/scheme/tests/12.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/scheme/tests/12.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/proj/scheme/tests/13.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/scheme/tests/13.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/proj/scheme/tests/14.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/scheme/tests/14.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/proj/scheme/tests/15.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/scheme/tests/15.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -100,10 +103,10 @@
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state x="194" y="3" key="SettingsEditor/0.0.1440.900@0.0.1440.900" timestamp="1597416154173" />
-    <state x="421" y="93" width="598" height="714" key="find.popup" timestamp="1599282670409">
+    <state x="421" y="93" width="598" height="714" key="find.popup" timestamp="1599292151942">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state x="421" y="93" width="598" height="714" key="find.popup/0.0.1440.900@0.0.1440.900" timestamp="1599282670409" />
+    <state x="421" y="93" width="598" height="714" key="find.popup/0.0.1440.900@0.0.1440.900" timestamp="1599292151942" />
     <state x="385" y="196" width="670" height="676" key="search.everywhere.popup" timestamp="1599237063509">
       <screen x="0" y="0" width="1440" height="900" />
     </state>

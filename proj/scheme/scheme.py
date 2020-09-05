@@ -321,8 +321,8 @@ def do_lambda_form(expressions, env):
     validate_form(expressions, 2)
     formals = expressions.first
     validate_formals(formals)
-    body = do_lambda_body_form(expressions.rest)
-    return LambdaProcedure(formals, body, env)
+    bodys = do_lambda_body_form(expressions.rest)
+    return LambdaProcedure(formals, bodys, env)
 
 def do_if_form(expressions, env):
     """Evaluate an if form.
@@ -352,9 +352,17 @@ def do_and_form(expressions, env):
     4
     False
     """
-    # BEGIN PROBLEM 12
-    "*** YOUR CODE HERE ***"
-    # END PROBLEM 12
+    if expressions is None or expressions == nil:
+        return True
+    else:
+        while expressions.rest != nil:
+            if is_false_primitive(scheme_eval(expressions.first, env)):
+                return False
+            else:
+                expressions = expressions.rest
+
+        return scheme_eval(expressions.first, env)
+
 
 def do_or_form(expressions, env):
     """Evaluate a (short-circuited) or form.
@@ -369,9 +377,17 @@ def do_or_form(expressions, env):
     2
     6
     """
-    # BEGIN PROBLEM 12
-    "*** YOUR CODE HERE ***"
-    # END PROBLEM 12
+    if expressions is None or expressions == nil:
+        return False
+    else:
+        while expressions.rest != nil:
+            val = scheme_eval(expressions.first, env)
+            if is_true_primitive(val):
+                return val
+            else:
+                expressions = expressions.rest
+
+        return scheme_eval(expressions.first, env)
 
 def do_cond_form(expressions, env):
     """Evaluate a cond form.
@@ -388,11 +404,15 @@ def do_cond_form(expressions, env):
                 raise SchemeError('else must be last')
         else:
             test = scheme_eval(clause.first, env)
+
         if is_true_primitive(test):
-            # BEGIN PROBLEM 13
-            "*** YOUR CODE HERE ***"
-            # END PROBLEM 13
+            if clause.rest == nil:
+                return test
+            else:
+                return eval_all(clause.rest, env)
         expressions = expressions.rest
+
+    return None
 
 def do_let_form(expressions, env):
     """Evaluate a let form.
@@ -413,9 +433,19 @@ def make_let_frame(bindings, env):
     if not scheme_listp(bindings):
         raise SchemeError('bad bindings list in let form')
     names, values = nil, nil
-    # BEGIN PROBLEM 14
-    "*** YOUR CODE HERE ***"
-    # END PROBLEM 14
+    while bindings != nil:
+        let_expr = bindings.first
+        validate_form(let_expr, 2, 2)
+        if not scheme_symbolp(let_expr.first):
+            raise SchemeError("let variable should be a synbol")
+        print("DEBUG:", "let_expr.first = ", let_expr.first)
+        print("DEBUG:", "let_expr.rest = ", let_expr.rest)
+        names = Pair(let_expr.first, names)
+        values = Pair(scheme_eval(let_expr.rest.first, env), values)
+
+        bindings = bindings.rest
+
+    validate_formals(names)
     return env.make_child_frame(names, values)
 
 
@@ -539,9 +569,10 @@ class MuProcedure(Procedure):
         self.formals = formals
         self.body = body
 
-    # BEGIN PROBLEM 15
-    "*** YOUR CODE HERE ***"
-    # END PROBLEM 15
+    def make_call_frame(self, args, env):
+        """Make a frame that binds my formal parameters to ARGS, a Scheme list
+        of values, for a lexically-scoped call evaluated in my parent environment."""
+        return env.make_child_frame(self.formals, args)
 
     def __str__(self):
         return str(Pair('mu', Pair(self.formals, self.body)))
@@ -552,12 +583,20 @@ class MuProcedure(Procedure):
 
 def do_mu_form(expressions, env):
     """Evaluate a mu form."""
+    def do_mu_body_form(body_expressions):
+        if body_expressions is None:
+            raise SchemeError("lambda body cannot be empty")
+        elif body_expressions is nil:
+            return nil
+        else:
+            return Pair(body_expressions.first, body_expressions.rest)
+
     validate_form(expressions, 2)
     formals = expressions.first
     validate_formals(formals)
-    # BEGIN PROBLEM 18
-    "*** YOUR CODE HERE ***"
-    # END PROBLEM 18
+    bodys = do_mu_body_form(expressions.rest)
+    return MuProcedure(formals, bodys)
+
 
 SPECIAL_FORMS['mu'] = do_mu_form
 

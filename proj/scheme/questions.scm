@@ -14,10 +14,12 @@
 ;; Problem 16
 ;; Returns a list of two-element lists
 (define (enumerate s)
-  ; BEGIN PROBLEM 16
-  'replace-this-line
+    (define (enumerate_helper index s)
+        (if (null? s) s
+            (cons (list index (car s)) (enumerate_helper (+ index 1) (cdr s))))
+        )
+    (enumerate_helper 0 s)
   )
-  ; END PROBLEM 16
 
 ;; Problem 17
 ;; List all ways to make change for TOTAL with DENOMS

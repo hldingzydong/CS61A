@@ -5,12 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b78ded1b-8bb9-49f4-9e6c-3021b445289c" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/proj/scheme/.ok_history" beforeDir="false" afterPath="$PROJECT_DIR$/proj/scheme/.ok_history" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/proj/scheme/.ok_storage.db" beforeDir="false" afterPath="$PROJECT_DIR$/proj/scheme/.ok_storage.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/proj/scheme/questions.scm" beforeDir="false" afterPath="$PROJECT_DIR$/proj/scheme/questions.scm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/proj/scheme/tests/18.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/scheme/tests/18.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

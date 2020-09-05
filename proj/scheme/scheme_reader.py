@@ -138,8 +138,8 @@ def scheme_read(src):
     elif val == '(':
         return read_tail(src)
     elif val in quotes:
-        # TODO in problem6
-        return val
+        rest = scheme_read(src)
+        return Pair(quotes[val], Pair(rest, nil))
     elif val not in DELIMITERS:
         return val
     else:

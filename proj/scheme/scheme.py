@@ -69,9 +69,13 @@ def eval_all(expressions, env):
     >>> eval_all(read_line("((define x 2) x)"), create_global_frame())
     2
     """
-    # BEGIN PROBLEM 7
-    return scheme_eval(expressions.first, env) # change this line
-    # END PROBLEM 7
+    if expressions is nil:
+        return None
+    else:
+        while expressions.rest is not nil:
+            scheme_eval(expressions.first, env)
+            expressions = expressions.rest
+    return scheme_eval(expressions.first, env)
 
 ################
 # Environments #
@@ -226,7 +230,7 @@ def do_define_form(expressions, env):
     'x'
     >>> scheme_eval("x", env)
     2
-    >>> do_define_form(read_line("(x (+ 2 8))"), env)
+    >>> do_define_form(read_line("(x (+ 2 8))"), env) # Pair(x, Pair((+ 2 *), nil))
     'x'
     >>> scheme_eval("x", env)
     10
@@ -264,9 +268,11 @@ def do_quote_form(expressions, env):
     Pair('+', Pair('x', Pair(2, nil)))
     """
     validate_form(expressions, 1, 1)
-    # BEGIN PROBLEM 6
-    "*** YOUR CODE HERE ***"
-    # END PROBLEM 6
+    if expressions.rest is not nil:
+        return Pair(expressions.first, do_quote_form(expressions.rest, env))
+    else:
+        return expressions.first
+
 
 def do_begin_form(expressions, env):
     """Evaluate a begin form.
@@ -287,12 +293,19 @@ def do_lambda_form(expressions, env):
     >>> do_lambda_form(read_line("((x) (+ x 2))"), env)
     LambdaProcedure(Pair('x', nil), Pair(Pair('+', Pair('x', Pair(2, nil))), nil), <Global Frame>)
     """
+    def do_lambda_body_form(body_expressions):
+        if body_expressions is None:
+            raise SchemeError("lambda body cannot be empty")
+        elif body_expressions is nil:
+            return nil
+        else:
+            return Pair(body_expressions.first, body_expressions.rest)
+
     validate_form(expressions, 2)
     formals = expressions.first
     validate_formals(formals)
-    # BEGIN PROBLEM 8
-    "*** YOUR CODE HERE ***"
-    # END PROBLEM 8
+    body = do_lambda_body_form(expressions.rest)
+    return LambdaProcedure(formals, body, env)
 
 def do_if_form(expressions, env):
     """Evaluate an if form.
